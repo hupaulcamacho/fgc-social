@@ -1,11 +1,29 @@
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Our app</h1>
-    </div>
-  );
-}
+// Components
+import Navbar from './components/Navbar';
 
+// Pages
+import Home from './pages/home';
+import Login from './pages/login';
+import Signup from './pages/signup';
+
+class App extends Component {
+  render() {
+    return (
+      <div className='App'>
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route path='/' element={<Home/>} />
+            <Route path='/login' element={<Login/>} />
+            <Route path='/signup' element={<Signup/>} />
+          </Routes>
+        </Router>
+      </div>
+    )
+  }
+}
 export default App;
