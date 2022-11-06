@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Link }  from 'react-router-dom/';
 
 // MUI imports
 import AppBar from '@mui/material/AppBar';
@@ -9,10 +10,16 @@ class Navbar extends Component {
   render() {
     return (
       <AppBar>
-        <Toolbar>
-          <Button color="inherit">Login</Button>
-          <Button color="inherit">Home</Button>
-          <Button color="inherit">Signup</Button>
+        <Toolbar className='nav-container'>
+          <Button color="inherit">
+            <Link to='/login'>Login</Link>
+          </Button>
+          <Button color="inherit">
+            <Link to='/'>Home</Link>
+          </Button>
+          <Button color="inherit">
+            <Link to='/signup'>Signup</Link>
+          </Button>
         </Toolbar>
       </AppBar>
     )

@@ -16,11 +16,13 @@ class App extends Component {
       <div className='App'>
         <Router>
           <Navbar />
-          <Routes>
-            <Route path='/' element={<Home/>} />
-            <Route path='/login' element={<Login/>} />
-            <Route path='/signup' element={<Signup/>} />
-          </Routes>
+          <div className="container">
+            <Routes>
+              <Route path='/' element={<Home/>} />
+              <Route path='/login' element={<Login/>} />
+              <Route path='/signup' element={<Signup/>} />
+            </Routes>
+          </div>
         </Router>
       </div>
     )
