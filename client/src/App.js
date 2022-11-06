@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
+import jwtDecode from 'jwt-decode';
+
 import ThemeProvider from '@mui/material/styles/ThemeProvider';
 import createTheme from '@mui/material/styles/createTheme';
 
 // Components
 import Navbar from './components/Navbar';
+import AuthRoute from './util/AuthRoute'
 
 // Pages
 import Home from './pages/home';
@@ -27,27 +30,43 @@ const theme = createTheme({
       contrastText: '#fff'
     },
   },
-  
-})
+});
 
-class App extends Component {
-  render() {
-    return (
-      <ThemeProvider theme={theme}>
-        <div className='App'>
-          <Router>
-            <Navbar />
-            <div className="container">
-              <Routes>
-                <Route path='/' element={<Home/>} />
-                <Route path='/login' element={<Login/>} />
-                <Route path='/signup' element={<Signup/>} />
-              </Routes>
-            </div>
-          </Router>
-        </div>
-      </ThemeProvider>
-    )
+let authenticated;
+const token = localStorage.FBIdToken;
+
+if(token) {
+  const decodedToken = jwtDecode(token);
+  console.log(decodedToken)
+  if(decodedToken.exp * 1000 < Date.now()) {
+    window.location.href = '/login'
+    authenticated = false;
+  } else {
+    authenticated = true;
   }
 }
+
+function App() {
+  return (
+    <ThemeProvider theme={theme}>
+      <div className='App'>
+        <Router>
+          <Navbar />
+          <div className="container">
+            <Routes>
+              <Route path='/' element={<Home/>} />
+              <Route path='/login' element={<AuthRoute authenticated={authenticated} />}>
+                <Route path='/login' element={<Login/>} />
+              </Route> 
+              <Route path='/signup' element={<AuthRoute authenticated={authenticated} />}>
+                <Route path='/signup' element={<Signup/>} />
+              </Route> 
+            </Routes>
+          </div>
+        </Router>
+      </div>
+    </ThemeProvider>
+  )
+}
+
 export default App;
