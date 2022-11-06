@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { withStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import AppIcon from '../images/punch.png';
@@ -57,12 +57,13 @@ function Login(props) {
     event.preventDefault();
     setLoading(true)
     const userData = {
-      email: email,
-      password: password
+      email,
+      password
     }
     axios.post('/login', userData)
       .then(res => {
         console.log(res.data);
+        localStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
         setLoading(false);
         navigate('/')
       })
@@ -72,73 +73,67 @@ function Login(props) {
       })
   }
 
-  const handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value
-    })
-  }
-
   
-    const { classes } = props;
-    // const { errors, loading } = this.state;
-    return (
-      <Grid container className={classes.form}>
-        <Grid item sm />
-        <Grid item sm>
-          <img src={AppIcon} alt="punch" className={classes.image}/>
-          <Typography variant="h1" className={classes.pageTitle}>
+  const { classes } = props;
+  // const { errors, loading } = this.state;
+  return (
+    <Grid container className={classes.form}>
+      <Grid item sm />
+      <Grid item sm>
+        <img src={AppIcon} alt="punch" className={classes.image}/>
+        <Typography variant="h1" className={classes.pageTitle}>
+          Login
+        </Typography>
+        <form noValidate onSubmit={handleSubmit}>
+          <TextField 
+            id="email" 
+            name="email" 
+            type="email" 
+            label="Email" 
+            className={classes.textField}
+            helperText={errors.email}
+            error={errors.email ? true : false} 
+            value={email} 
+            onChange={(e) => setEmail(e.target.value)} 
+            fullWidth
+          />
+          <TextField 
+            id="password" 
+            name="password" 
+            type="password" 
+            label="Password" 
+            className={classes.textField}
+            helperText={errors.password}
+            error={errors.password ? true : false}  
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+            fullWidth
+          />
+          {errors.general && (
+            <Typography variant="body2" className={classes.customError}>
+              {errors.general}
+            </Typography>
+          )}
+          <Button 
+            type="submit" 
+            variant="contained" 
+            color="primary" 
+            className={classes.button}
+            disabled={loading}
+          >
             Login
-          </Typography>
-          <form noValidate onSubmit={handleSubmit}>
-            <TextField 
-              id="email" 
-              name="email" 
-              type="email" 
-              label="Email" 
-              className={classes.textField}
-              helperText={errors.email}
-              error={errors.email ? true : false} 
-              value={email} 
-              onChange={(e) => setEmail(e.target.value)} 
-              fullWidth
-            />
-            <TextField 
-              id="password" 
-              name="password" 
-              type="password" 
-              label="Password" 
-              className={classes.textField}
-              helperText={errors.password}
-              error={errors.password ? true : false}  
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} 
-              fullWidth
-            />
-            {errors.general && (
-              <Typography variant="body2" className={classes.customError}>
-                {errors.general}
-              </Typography>
+            {loading && (
+              <CircularProgress size={30} className={classes.progress} />
             )}
-            <Button 
-              type="submit" 
-              variant="contained" 
-              color="primary" 
-              className={classes.button}
-              disabled={loading}
-            >
-              Login
-              {loading && (
-                <CircularProgress size={30} className={classes.progress} />
-              )}
-            </Button>
-            <br />
-            <small>Dont have an account? Sign up <Link to='/signup' className={classes.signup}>here</Link></small>
-          </form>
-        </Grid>
-        <Grid item sm />
+          </Button>
+          <br />
+          <small>Dont have an account? Sign up <Link to='/signup' className={classes.signup}>here</Link></small>
+        </form>
       </Grid>
-    )
-  }
+      <Grid item sm />
+    </Grid>
+  )
+}
 
 
 Login.propTypes = {

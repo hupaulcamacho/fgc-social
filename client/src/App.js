@@ -27,6 +27,7 @@ const theme = createTheme({
       contrastText: '#fff'
     },
   },
+  
 })
 
 class App extends Component {
