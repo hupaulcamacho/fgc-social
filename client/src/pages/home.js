@@ -1,13 +1,31 @@
 import React, { Component } from 'react'
 import Grid from '@mui/material/Grid';
+import axios from 'axios';
+
+import Post from '../components/Post';
 
 class home extends Component {
-  // componentDidMount
+  state = {
+    posts: null
+  }
+  componentDidMount() {
+    axios.get('/posts')
+      .then(res => {
+        console.log(res.data)
+        this.setState({
+          posts: res.data
+        })
+      })
+      .catch(err => console.log(err));
+  }
   render() {
+    let recentPostsMarkup = this.state.posts ? (
+      this.state.posts.map((post) => <Post post={post} />) 
+    ) : <p>Loading...</p>
     return (
       <Grid container spacing={16}>
         <Grid item sm={8} xs={12}>
-          <p>Content...</p>
+          {recentPostsMarkup} 
         </Grid>
         <Grid item sm={4} xs={12}>
           <p>Profile...</p>
