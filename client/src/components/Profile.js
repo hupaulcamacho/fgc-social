@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
-
+import EditDetails from './EditDetails'
 //redux
 import { connect } from "react-redux";
 import { logoutUser, uploadImage } from "../redux/actions/userActions";
@@ -21,6 +21,7 @@ import Tooltip from "@mui/material/Tooltip";
 import LocationOn from "@mui/icons-material/LocationOn";
 import LinkIcon from "@mui/icons-material/Link";
 import CalendarToday from "@mui/icons-material/CalendarToday";
+import KeyboardReturn from "@mui/icons-material/KeyboardReturn";
 
 const styles = (theme) => ({
   paper: {
@@ -94,6 +95,10 @@ function Profile(props) {
     fileInput.click();
   };
 
+  const handleLogout = () => {
+    props.logoutUser()
+  }
+
   let profileMarkup = !loading ? (
     authenticated ? (
       <Paper className={classes.paper}>
@@ -144,6 +149,12 @@ function Profile(props) {
             <CalendarToday color="primary" />{" "}
             <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
           </div>
+          <Tooltip title="Logout" placement="top">
+            <IconButton onClick={handleLogout} >
+              <KeyboardReturn color="primary"/>
+            </IconButton>
+          </Tooltip>
+          <EditDetails />
         </div>
       </Paper>
     ) : (
