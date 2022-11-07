@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import AppIcon from '../images/punch.png';
-import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
+// mui
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import CircularProgress from '@mui/material/CircularProgress';
+
+// redux
+import { connect } from 'react-redux';
+import { signupUser } from '../redux/actions/userActions';
 
 const styles = {
   form: {
@@ -49,36 +53,26 @@ function Signup(props) {
   const [ password, setPassword ] = useState('');
   const [ handle, setHandle ] = useState('');
   const [ confirmPassword, setConfirmPassword ] = useState('');
-  const [ loading, setLoading ] = useState(false);
   const [ errors, setErrors ] = useState({});
 
-  const handleSubmit = (event) => {
-    
-    event.preventDefault();
-    setLoading(true)
+  useEffect(() => {
+    if(props.UI.errors) {
+      setErrors(props.UI.errors);
+    }
+  }, [props.UI.errors]);
 
+  const handleSubmit = (event) => {
+    event.preventDefault();
     const newUserData = {
       email,
       password,
       confirmPassword,
       handle
-    }
-
-    axios.post('/signup', newUserData)
-      .then(res => {
-        console.log(res.data);
-        localStorage.setItem('FBIdToken', `Bearer ${res.data.token}`);
-        setLoading(false);
-        navigate('/')
-      })
-      .catch((err) => {
-        setErrors(err.response.data);
-        setLoading(false);
-      })
+    };
+    props.signupUser(newUserData, navigate)
   }
 
-  const { classes } = props;
-  // const { errors, loading } = this.state;
+  const { classes, UI: { loading } } = props;
   return (
     <Grid container className={classes.form}>
       <Grid item sm />
@@ -164,6 +158,19 @@ function Signup(props) {
 
 
 Signup.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  signupUser: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  UI: PropTypes.object.isRequired
 }
-export default withStyles(styles)(Signup);
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+  UI: state.UI
+});
+
+const mapActionsToProps = {
+  signupUser
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(Signup));

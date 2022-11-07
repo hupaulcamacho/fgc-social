@@ -1,72 +1,85 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css';
-import jwtDecode from 'jwt-decode';
+import React, { Component } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./App.css";
+import jwtDecode from "jwt-decode";
+import axios from 'axios'
 
-import ThemeProvider from '@mui/material/styles/ThemeProvider';
-import createTheme from '@mui/material/styles/createTheme';
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import createTheme from "@mui/material/styles/createTheme";
+
+// Redux
+import { Provider } from "react-redux";
+import store from "./redux/store";
+import { SET_AUTHENTICATED } from "./redux/types";
+import { logoutUser, getUserData } from "./redux/actions/userActions";
 
 // Components
-import Navbar from './components/Navbar';
-import AuthRoute from './util/AuthRoute'
+import Navbar from "./components/Navbar";
+import AuthRoute from "./util/AuthRoute";
 
 // Pages
-import Home from './pages/home';
-import Login from './pages/login';
-import Signup from './pages/signup';
+import Home from "./pages/home";
+import Login from "./pages/login";
+import Signup from "./pages/signup";
 
 const theme = createTheme({
   palette: {
     primary: {
-      light: '#7c88cc',
-      main: '#5c6bc0',
-      dark: '#404a86',
-      contrastText: '#fff'
+      light: "#7c88cc",
+      main: "#5c6bc0",
+      dark: "#404a86",
+      contrastText: "#fff",
     },
     secondary: {
-      light: '#9ad29c',
-      main: '#81c784',
-      dark: '#5a8b5c',
-      contrastText: '#fff'
+      light: "#9ad29c",
+      main: "#81c784",
+      dark: "#5a8b5c",
+      contrastText: "#fff",
     },
   },
 });
 
-let authenticated;
 const token = localStorage.FBIdToken;
-
-if(token) {
+if (token) {
   const decodedToken = jwtDecode(token);
-  console.log(decodedToken)
-  if(decodedToken.exp * 1000 < Date.now()) {
-    window.location.href = '/login'
-    authenticated = false;
+  console.log(decodedToken);
+  if (decodedToken.exp * 1000 < Date.now()) {
+    store.dispatch(logoutUser())
+    window.location.href = "/login";
   } else {
-    authenticated = true;
+    store.dispatch({ type: SET_AUTHENTICATED });
+    axios.defaults.headers.common['Authorization'] = token
+    store.dispatch(getUserData())
   }
 }
 
 function App() {
   return (
     <ThemeProvider theme={theme}>
-      <div className='App'>
+      <Provider store={store}>
         <Router>
           <Navbar />
           <div className="container">
             <Routes>
-              <Route path='/' element={<Home/>} />
-              <Route path='/login' element={<AuthRoute authenticated={authenticated} />}>
-                <Route path='/login' element={<Login/>} />
-              </Route> 
-              <Route path='/signup' element={<AuthRoute authenticated={authenticated} />}>
-                <Route path='/signup' element={<Signup/>} />
-              </Route> 
+              <Route path="/" element={<Home />} />
+              <Route
+                path="/login"
+                element={<AuthRoute />}
+              >
+                <Route path="/login" element={<Login />} />
+              </Route>
+              <Route
+                path="/signup"
+                element={<AuthRoute />}
+              >
+                <Route path="/signup" element={<Signup />} />
+              </Route>
             </Routes>
           </div>
         </Router>
-      </div>
+      </Provider>
     </ThemeProvider>
-  )
+  );
 }
 
 export default App;

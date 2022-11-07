@@ -11,14 +11,14 @@ class Navbar extends Component {
     return (
       <AppBar>
         <Toolbar className='nav-container'>
-          <Link to='/login'>
-              <Button color="inherit">
-                Login
-              </Button>
-          </Link>
           <Link to='/'>
               <Button color="inherit">
                 Home
+              </Button>
+          </Link>
+          <Link to='/login'>
+              <Button color="inherit">
+                Login
               </Button>
           </Link>
           <Link to='/signup'>
