@@ -1,14 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+
+//redux
+import { connect } from "react-redux";
+import { logoutUser, uploadImage } from "../redux/actions/userActions";
+
 // mui
 import { withStyles } from "@mui/styles";
 import Button from "@mui/material/Button";
 import { Paper } from "@mui/material";
 import MuiLink from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
+import Tooltip from "@mui/material/Tooltip";
 
 // icons
 import LocationOn from "@mui/icons-material/LocationOn";
@@ -30,8 +37,8 @@ const styles = (theme) => ({
       },
     },
     "& .profile-image": {
-      width: 200,
-      height: 200,
+      width: 150,
+      height: 150,
       objectFit: "cover",
       maxWidth: "100%",
       borderRadius: "50%",
@@ -69,9 +76,23 @@ function Profile(props) {
     user: {
       credentials: { handle, createdAt, imageUrl, bio, website, location },
       loading,
-      authenticated
+      authenticated,
     },
   } = props;
+
+  const handleImageChange = (event) => {
+    const image = event.target.files[0];
+    // send to server
+    const formData = new FormData();
+    formData.append("image", image, image.name);
+    props.uploadImage(formData);
+    console.log('image changed')
+  };
+
+  const handleEditPicture = () => {
+    const fileInput = document.getElementById("imageInput");
+    fileInput.click();
+  };
 
   let profileMarkup = !loading ? (
     authenticated ? (
@@ -79,6 +100,17 @@ function Profile(props) {
         <div className={classes.profile}>
           <div className="image-wrapper">
             <img className="profile-image" src={imageUrl} alt="profile" />
+            <input
+              type="file"
+              id="imageInput"
+              onChange={handleImageChange}
+              hidden="hidden"
+            />
+            <Tooltip title="edit profile picture" placement="top">
+              <IconButton onClick={handleEditPicture} className="button">
+                <EditIcon color="primary" />
+              </IconButton>
+            </Tooltip>
           </div>
           <hr />
           <div className="profile-details">
@@ -150,9 +182,16 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
+const mapActionsToProps = { logoutUser, uploadImage };
+
 Profile.propTypes = {
   user: PropTypes.object.isRequired,
+  logoutUser: PropTypes.func.isRequired,
+  uploadImage: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps)(withStyles(styles)(Profile));
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
+)(withStyles(styles)(Profile));
