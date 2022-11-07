@@ -88,7 +88,7 @@ function Login(props) {
             helperText={errors.email}
             error={errors.email ? true : false} 
             value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
+            onChange={(e) => {setErrors({}); setEmail(e.target.value)}} 
             fullWidth
           />
           <TextField 
@@ -100,7 +100,7 @@ function Login(props) {
             helperText={errors.password}
             error={errors.password ? true : false}  
             value={password} 
-            onChange={(e) => setPassword(e.target.value)} 
+            onChange={(e) => {setErrors({}); setPassword(e.target.value)}} 
             fullWidth
           />
           {errors.general && (

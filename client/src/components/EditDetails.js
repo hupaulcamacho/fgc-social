@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
+import MyButton from '../util/MyButton';
 
 // mui
-import Tooltip from "@mui/material/Tooltip";
-import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -62,11 +61,9 @@ function EditDetails(props) {
   const { classes } = props;
   return (
     <>
-      <Tooltip title="Edit details" placement="top">
-        <IconButton onClick={handleOpen} className={classes.button}>
-          <EditIcon color="primary" />
-        </IconButton>
-      </Tooltip>
+      <MyButton tip='Edit user details' onClick={handleOpen} btnClassName={classes.button}>
+        <EditIcon color="primary" />
+      </MyButton>
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
         <DialogTitle>Edit your details</DialogTitle>
         <DialogContent>
