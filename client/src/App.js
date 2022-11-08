@@ -36,6 +36,7 @@ const theme = createTheme({
       dark: "#5a8b5c",
       contrastText: "#fff",
     },
+    delete: { main:"#e63535" }
   },
 });
 

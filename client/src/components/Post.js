@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from "prop-types";
 import MyButton from "../util/MyButton";
+import DeletePost from './DeletePost';
 
 // MUI Imports
 import Card from "@mui/material/Card";
@@ -23,6 +24,7 @@ import { likePost, unlikePost } from "../redux/actions/dataActions";
 
 const styles = (theme) => ({
   card: {
+    postion: 'relative',
     display: "flex",
     marginBottom: 20,
   },
@@ -71,7 +73,10 @@ function Post(props) {
       commentCount,
     },
     user: {
-      authenticated
+      authenticated,
+      credentials: {
+        handle
+      }
     }
   } = props;
 
@@ -92,6 +97,10 @@ function Post(props) {
       </MyButton>
     )
   )
+
+  const deleteButton = authenticated && userHandle === handle ? (
+    <DeletePost postId={postId}/>
+  ) : null
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -108,6 +117,7 @@ function Post(props) {
         >
           {userHandle}
         </Typography>
+        {deleteButton}
         <Typography variant="body2" color="textSecondary">
           {dayjs(createdAt).fromNow()}
         </Typography>
