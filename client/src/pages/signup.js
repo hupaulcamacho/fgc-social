@@ -56,6 +56,7 @@ function Signup(props) {
   const [ errors, setErrors ] = useState({});
 
   useEffect(() => {
+    setErrors({})
     if(props.UI.errors) {
       setErrors(props.UI.errors);
     }
@@ -91,7 +92,7 @@ function Signup(props) {
             helperText={errors.email}
             error={errors.email ? true : false} 
             value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
+            onChange={(e) => {setErrors({}); setEmail(e.target.value)}}
             fullWidth
           />
           <TextField 

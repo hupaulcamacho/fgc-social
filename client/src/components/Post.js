@@ -24,7 +24,7 @@ import { likePost, unlikePost } from "../redux/actions/dataActions";
 
 const styles = (theme) => ({
   card: {
-    postion: 'relative',
+    postion: "relative",
     display: "flex",
     marginBottom: 20,
   },

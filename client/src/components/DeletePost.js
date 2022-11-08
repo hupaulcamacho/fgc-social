@@ -13,13 +13,11 @@ import DeleteOutline from "@mui/icons-material/DeleteOutline";
 import { connect } from "react-redux";
 import { deletePost } from "../redux/actions/dataActions";
 
-const styles = {
+const styles = (theme) => ({
     deleteButton: {
-        position: 'absolute',
-        top: '-12%',
-        left: '171%'
+        // position: "absolute",
     }
-};
+});
 
 function DeletePost(props) {
   const [open, setOpen] = useState(false);

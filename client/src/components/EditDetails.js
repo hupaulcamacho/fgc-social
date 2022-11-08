@@ -11,12 +11,13 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import { withStyles } from "@mui/styles";
 
-// icons
-import EditIcon from "@mui/icons-material/Edit";
-
 // redux
 import { connect } from "react-redux";
 import { editUserDetails } from "../redux/actions/userActions";
+
+// icons
+import EditIcon from "@mui/icons-material/Edit";
+
 
 const styles = (theme) => ({
 //   ...theme,

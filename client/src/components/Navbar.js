@@ -3,6 +3,7 @@ import { Link }  from 'react-router-dom/';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import MyButton from '../util/MyButton';
+import CreatePost from './CreatePost';
 
 // MUI imports
 import AppBar from '@mui/material/AppBar';
@@ -23,9 +24,7 @@ class Navbar extends Component {
         {authenticated ? (
           <>
             <Toolbar className='nav-container'>
-              <MyButton tip='Create a Post'>
-                <AddIcon />
-              </MyButton>
+              <CreatePost />
               <Link to='/'>
                 <MyButton tip='Home'>
                   <HomeIcon />
