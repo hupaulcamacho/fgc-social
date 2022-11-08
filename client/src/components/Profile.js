@@ -52,6 +52,7 @@ const styles = (theme) => ({
       marginBottom: '10px',
       "& span, svg": {
         verticalAlign: "middle",
+        
       },
       "& a": {
         color: theme.palette.primary.main,
@@ -151,10 +152,10 @@ function Profile(props) {
             <CalendarToday color="primary" />{" "}
             <span>Joined {dayjs(createdAt).format("MMM YYYY")}</span>
           </div>
-          <MyButton tip="Logout" onClick={handleLogout} >
+          <EditDetails />
+          <MyButton tip="Logout" onClick={handleLogout}>
             <KeyboardReturn color="primary" />
           </MyButton>
-          <EditDetails />
         </div>
       </Paper>
     ) : (

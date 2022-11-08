@@ -40,9 +40,9 @@ class Navbar extends Component {
           <>
             <Toolbar className='nav-container'>
               <Link to='/'>
-                  <Button color="inherit">
-                    Home
-                  </Button>
+                <MyButton tip='Home'>
+                  <HomeIcon />
+                </MyButton>
               </Link>
               <Link to='/login'>
                   <Button color="inherit">
