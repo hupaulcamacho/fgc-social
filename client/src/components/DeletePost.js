@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { withStyles } from "@mui/styles";
 import PropTypes from "prop-types";
 import MyButton from "../util/MyButton";
@@ -13,11 +13,12 @@ import DeleteOutline from "@mui/icons-material/DeleteOutline";
 import { connect } from "react-redux";
 import { deletePost } from "../redux/actions/dataActions";
 
-const styles = (theme) => ({
+const styles = {
     deleteButton: {
-        // position: "absolute",
+        position: "absolute !important",
+        left: '59%',
     }
-});
+};
 
 function DeletePost(props) {
   const [open, setOpen] = useState(false);
@@ -37,7 +38,7 @@ function DeletePost(props) {
 
   const { classes } = props;
   return (
-    <>
+    <Fragment>
       <MyButton
         tip="Delete Post"
         onClick={handleOpen}
@@ -56,7 +57,7 @@ function DeletePost(props) {
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </Fragment>
   );
 }
 

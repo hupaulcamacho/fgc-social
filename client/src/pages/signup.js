@@ -32,7 +32,7 @@ const styles = {
   },
   button: {
     marginTop: '10px !important',
-    position: 'relative'
+    // position: 'relative'
   },
   customError: {
     color: 'red',

@@ -37,7 +37,7 @@ const theme = createTheme({
       contrastText: "#fff",
     },
     delete: { main:"#e63535" }
-  },
+  }
 });
 
 const token = localStorage.FBIdToken;

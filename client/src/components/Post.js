@@ -5,7 +5,8 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from "prop-types";
 import MyButton from "../util/MyButton";
-import DeletePost from './DeletePost';
+import DeletePost from "./DeletePost";
+import PostDialog from "./PostDialog";
 
 // MUI Imports
 import Card from "@mui/material/Card";
@@ -15,14 +16,14 @@ import Typography from "@mui/material/Typography";
 
 // icons
 import ChatIcon from "@mui/icons-material/ChatBubbleOutline";
-import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 // redux
 import { connect } from "react-redux";
 import { likePost, unlikePost } from "../redux/actions/dataActions";
 
-const styles = (theme) => ({
+const styles = {
   card: {
     postion: "relative",
     display: "flex",
@@ -41,19 +42,22 @@ const styles = (theme) => ({
       margin: "20px 10px",
     },
   },
-});
+};
 
 function Post(props) {
   dayjs.extend(relativeTime);
 
   const likedPost = () => {
-    if (props.user.likes && props.user.likes.find((like) => like.postId === props.post.postId)) {
+    if (
+      props.user.likes &&
+      props.user.likes.find((like) => like.postId === props.post.postId)
+    ) {
       return true;
     } else return false;
   };
 
   const likePost = () => {
-    console.log(props.post.postId)
+    console.log(props.post.postId);
     props.likePost(props.post.postId);
   };
 
@@ -74,10 +78,8 @@ function Post(props) {
     },
     user: {
       authenticated,
-      credentials: {
-        handle
-      }
-    }
+      credentials: { handle },
+    },
   } = props;
 
   const likeButton = !authenticated ? (
@@ -86,21 +88,20 @@ function Post(props) {
         <FavoriteBorder color="primary" />
       </Link>
     </MyButton>
+  ) : likedPost() ? (
+    <MyButton tip="Unlike" onClick={unlikePost}>
+      <FavoriteIcon color="primary" />
+    </MyButton>
   ) : (
-    likedPost() ? (
-      <MyButton tip="Unlike" onClick={unlikePost}>
-        <FavoriteIcon color="primary" />
-      </MyButton>
-    ) : (
-      <MyButton tip="Like" onClick={likePost}>
-        <FavoriteBorder color="primary" />
-      </MyButton>
-    )
-  )
+    <MyButton tip="Like" onClick={likePost}>
+      <FavoriteBorder color="primary" />
+    </MyButton>
+  );
 
-  const deleteButton = authenticated && userHandle === handle ? (
-    <DeletePost postId={postId}/>
-  ) : null
+  const deleteButton =
+    authenticated && userHandle === handle ? (
+      <DeletePost postId={postId} />
+    ) : null;
   return (
     <Card className={classes.card}>
       <CardMedia
@@ -128,6 +129,7 @@ function Post(props) {
           <ChatIcon color="primary" />
         </MyButton>
         <span>{commentCount} Comments</span>
+        <PostDialog postId={postId} userHandle={userHandle} />
       </CardContent>
     </Card>
   );

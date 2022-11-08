@@ -24,7 +24,7 @@ const styles = (theme) => ({
     textField: {
         margin: '10px auto 10px auto !important',
     },
-    button: {
+    editButton: {
         float: 'right'
     }
 });
@@ -62,7 +62,7 @@ function EditDetails(props) {
   const { classes } = props;
   return (
     <>
-      <MyButton tip='Edit user details' onClick={handleOpen} btnClassName={classes.button}>
+      <MyButton tip='Edit user details' onClick={handleOpen} btnClassName={classes.editButton}>
         <EditIcon color="primary" />
       </MyButton>
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
