@@ -14,7 +14,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 // redux
 import { connect } from "react-redux";
-import { createPost } from "../redux/actions/dataActions";
+import { createPost, clearErrors } from "../redux/actions/dataActions";
 
 // icon
 import AddIcon from '@mui/icons-material/Add';
@@ -61,8 +61,8 @@ function CreatePost(props) {
     };
     
     const handleClose = () => {
+        props.clearErrors()
         setOpen(false);
-        setErrors({});
     };
 
     const handleSubmit = (event) => {
@@ -115,6 +115,7 @@ function CreatePost(props) {
 
 CreatePost.propTypes = {
     createPost: PropTypes.func.isRequired,
+    clearErrors: PropTypes.func.isRequired,
     UI: PropTypes.object.isRequired
 };
 
@@ -122,4 +123,4 @@ const mapStateToProps = (state) => ({
     UI: state.UI
 })
 
-export default connect(mapStateToProps, { createPost })(withStyles(styles)(CreatePost))
+export default connect(mapStateToProps, { createPost, clearErrors })(withStyles(styles)(CreatePost))
