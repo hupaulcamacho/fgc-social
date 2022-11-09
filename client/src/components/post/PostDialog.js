@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import MyButton from "../../util/MyButton";
 import { withStyles } from "@mui/styles";
+import MyButton from "../../util/MyButton";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import LikeButton from "./LikeButton";
 import Comments from "./Comments"
+import CommentForm from "./CommentForm"
 
 // mui
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -121,6 +121,7 @@ function PostDialog(props) {
         <span>{commentCount} Comments</span>
       </Grid>
       <hr className={classes.visibleSeparator} />
+      <CommentForm postId={postId} />
       <Comments comments={comments}/>
     </Grid>
   );

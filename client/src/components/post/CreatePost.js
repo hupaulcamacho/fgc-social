@@ -29,10 +29,9 @@ const styles = (theme) => ({
     position: "absolute",
   },
   closeButton: {
-    position: "absolute",
+    position: "absolute !important",
     width: "40px",
-    left: "68%",
-    top: "6%",
+    left: "93%",
   },
   textField: {
     marginTop: "10px !important",
