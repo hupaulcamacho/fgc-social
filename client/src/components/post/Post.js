@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { withStyles } from "@mui/styles";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
@@ -61,6 +61,7 @@ function Post(props) {
       credentials: { handle },
     },
   } = props;
+  
 
   const deleteButton =
     authenticated && userHandle === handle ? (
@@ -93,7 +94,7 @@ function Post(props) {
           <ChatIcon color="primary" />
         </MyButton>
         <span>{commentCount} Comments</span>
-        <PostDialog postId={postId} userHandle={userHandle} />
+        <PostDialog openDialog={props.openDialog} postId={postId} userHandle={userHandle} />
       </CardContent>
     </Card>
   );
@@ -103,6 +104,7 @@ Post.propTypes = {
   user: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
+  openDialog: PropTypes.bool
 };
 
 const mapStateToProps = (state) => ({

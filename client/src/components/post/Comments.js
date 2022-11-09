@@ -12,7 +12,8 @@ const styles = (theme) => ({
   //   ...theme,
   commentImage: {
     maxWidth: "100%",
-    height: "100px",
+    height: "75px",
+    marginLeft: '20px',
     objectFit: "cover",
     borderRadius: "50%",
   },
@@ -52,7 +53,7 @@ function Comments(props) {
                     <Typography
                       variant="h5"
                       component={Link}
-                      to={`/user/${userHandle}`}
+                      to={`/users/${userHandle}`}
                       color="primary"
                     >
                       {userHandle}

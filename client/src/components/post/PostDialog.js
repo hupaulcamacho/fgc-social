@@ -5,8 +5,8 @@ import MyButton from "../../util/MyButton";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import LikeButton from "./LikeButton";
-import Comments from "./Comments"
-import CommentForm from "./CommentForm"
+import Comments from "./Comments";
+import CommentForm from "./CommentForm";
 
 // mui
 import Dialog from "@mui/material/Dialog";
@@ -25,50 +25,78 @@ import { connect } from "react-redux";
 import { getPost } from "../../redux/actions/dataActions";
 
 const styles = (theme) => ({
-//   ...theme,
+  //   ...theme,
   invisibleSeparator: {
     border: "none",
     margin: "4",
   },
   visibleSeparator: {
-    width: '100%',
-    borderBottom: '1px solid rgba(0,0,0,0.1)',
-    marginBottpm: '10px'
+    width: "100%",
+    borderBottom: "1px solid rgba(0,0,0,0.1)",
+    marginBottpm: "10px",
   },
   profileImage: {
     maxWidth: 150,
     height: 150,
-    borderRadius: '50%',
-    objectFit: 'cover'
+    borderRadius: "50%",
+    objectFit: "cover",
   },
   dialogContent: {
-    padding: 10
+    padding: 10,
   },
   closeButton: {
-    position: 'absolute !important',
-    left: '93%',
+    position: "absolute !important",
+    left: "93%",
     // top: '10%',
-    margin: 2
+    margin: 2,
   },
   expandButton: {
-    position: 'absolute !important',
-    left: '59%'
+    position: "absolute !important",
+    left: "59%",
   },
   spinnerDiv: {
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 50,
-    marginBottom: 50
-  }
+    marginBottom: 50,
+  },
 });
 
 function PostDialog(props) {
-  const [open, setOpen] = useState(false);
+  const [ open, setOpen ] = useState(false);
+  const [ oldPath, setOldPath ] = useState('');
+  const [ newPath, setNewPath ] = useState('');
+  
+  console.log('old path', oldPath)
+  console.log('new path', newPath)
+  console.log(props.openDialog)
+
+  useEffect(() => {
+    if (props.openDialog) {
+      handleOpen();
+    }
+  }, [props.openDialog]);
 
   const handleOpen = () => {
+    let oldPath = window.location.pathname;
+
+    const { userHandle, postId } = props;
+    const newPath = `/users/${userHandle}/post/${postId}`;
+    console.log('replace path', newPath)
+
+    if(oldPath === newPath) {
+      oldPath = `/users/${userHandle}`
+    }
+
+    window.history.pushState(null, null, newPath);
+
     setOpen(true);
+    setOldPath(oldPath);
+    setNewPath(newPath);
     props.getPost(props.postId);
   };
+
   const handleClose = () => {
+    window.history.pushState(null, null, oldPath);
     setOpen(false);
   };
 
@@ -82,14 +110,14 @@ function PostDialog(props) {
       commentCount,
       userImage,
       userHandle,
-      comments
+      comments,
     },
     UI: { loading },
   } = props;
 
   const dialogMarkup = loading ? (
     <div className={classes.spinnerDiv}>
-      <CircularProgress size={200} thickness={2}/>
+      <CircularProgress size={200} thickness={2} />
     </div>
   ) : (
     <Grid container spacing={2}>
@@ -122,7 +150,7 @@ function PostDialog(props) {
       </Grid>
       <hr className={classes.visibleSeparator} />
       <CommentForm postId={postId} />
-      <Comments comments={comments}/>
+      <Comments comments={comments} />
     </Grid>
   );
 
@@ -160,7 +188,7 @@ PostDialog.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   post: state.data.post,
   UI: state.UI,
 });

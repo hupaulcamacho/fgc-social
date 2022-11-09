@@ -21,6 +21,7 @@ import AuthRoute from "./util/AuthRoute";
 import Home from "./pages/home";
 import Login from "./pages/login";
 import Signup from "./pages/signup";
+import User from "./pages/user";
 
 const theme = createTheme({
   palette: {
@@ -43,7 +44,6 @@ const theme = createTheme({
 const token = localStorage.FBIdToken;
 if (token) {
   const decodedToken = jwtDecode(token);
-  console.log(decodedToken);
   if (decodedToken.exp * 1000 < Date.now()) {
     store.dispatch(logoutUser())
     window.location.href = "/login";
@@ -62,19 +62,21 @@ function App() {
           <Navbar />
           <div className="container">
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route exact path="/" element={<Home />} />
               <Route
                 path="/login"
                 element={<AuthRoute />}
               >
-                <Route path="/login" element={<Login />} />
+                <Route exact path="/login" element={<Login />} />
               </Route>
               <Route
-                path="/signup"
+                exact path="/signup"
                 element={<AuthRoute />}
               >
                 <Route path="/signup" element={<Signup />} />
               </Route>
+              <Route exact path="/users/:handle" element={<User />} />
+              <Route exact path="/users/:handle/post/:postId" element={<User />} />
             </Routes>
           </div>
         </Router>
