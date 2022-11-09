@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import jwtDecode from "jwt-decode";
-import axios from 'axios'
+import axios from "axios";
+
 
 import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import createTheme from "@mui/material/styles/createTheme";
@@ -37,20 +38,23 @@ const theme = createTheme({
       dark: "#5a8b5c",
       contrastText: "#fff",
     },
-    delete: { main:"#e63535" }
-  }
+    delete: { main: "#e63535" },
+  },
 });
+
+axios.defaults.baseURL = "https://us-central1-fgc-social.cloudfunctions.net/api";
+
 
 const token = localStorage.FBIdToken;
 if (token) {
   const decodedToken = jwtDecode(token);
   if (decodedToken.exp * 1000 < Date.now()) {
-    store.dispatch(logoutUser())
+    store.dispatch(logoutUser());
     window.location.href = "/login";
   } else {
     store.dispatch({ type: SET_AUTHENTICATED });
-    axios.defaults.headers.common['Authorization'] = token
-    store.dispatch(getUserData())
+    axios.defaults.headers.common["Authorization"] = token;
+    store.dispatch(getUserData());
   }
 }
 
@@ -63,20 +67,18 @@ function App() {
           <div className="container">
             <Routes>
               <Route exact path="/" element={<Home />} />
-              <Route
-                path="/login"
-                element={<AuthRoute />}
-              >
+              <Route path="/login" element={<AuthRoute />}>
                 <Route exact path="/login" element={<Login />} />
               </Route>
-              <Route
-                exact path="/signup"
-                element={<AuthRoute />}
-              >
+              <Route exact path="/signup" element={<AuthRoute />}>
                 <Route path="/signup" element={<Signup />} />
               </Route>
               <Route exact path="/users/:handle" element={<User />} />
-              <Route exact path="/users/:handle/post/:postId" element={<User />} />
+              <Route
+                exact
+                path="/users/:handle/post/:postId"
+                element={<User />}
+              />
             </Routes>
           </div>
         </Router>

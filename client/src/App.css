@@ -23,3 +23,7 @@ a {
 .nav-container {
   margin: auto;
 }
+
+.navLogin, .navSignup {
+  color: white
+}

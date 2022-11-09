@@ -41,10 +41,10 @@ class Navbar extends Component {
                 </MyButton>
               </Link>
               <Link to="/login">
-                <Button color="inherit">Login</Button>
+                <Button color="inherit"><span className="navLogin">Login</span></Button>
               </Link>
               <Link to="/signup">
-                <Button color="inherit">Signup</Button>
+                <Button color="inherit"><span className="navSignup">Signup</span></Button>
               </Link>
             </Toolbar>
           </>
