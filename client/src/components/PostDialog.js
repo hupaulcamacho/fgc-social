@@ -4,6 +4,7 @@ import MyButton from "../util/MyButton";
 import { withStyles } from "@mui/styles";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
+import LikeButton from "./LikeButton";
 
 // mui
 import Dialog from "@mui/material/Dialog";
@@ -15,6 +16,7 @@ import Typography from "@mui/material/Typography";
 
 // icons
 import CloseIcon from "@mui/icons-material/Close";
+import ChatIcon from "@mui/icons-material/ChatBubbleOutline";
 import UnfoldMore from "@mui/icons-material/UnfoldMore";
 
 // redux
@@ -39,7 +41,17 @@ const styles = (theme) => ({
   closeButton: {
     position: 'absolute !important',
     left: '93%',
+    // top: '10%',
     margin: 2
+  },
+  expandButton: {
+    position: 'absolute !important',
+    left: '59%'
+  },
+  spinnerDiv: {
+    textAlign: 'center',
+    marginTop: 50,
+    marginBottom: 50
   }
 });
 
@@ -69,7 +81,9 @@ function PostDialog(props) {
   } = props;
 
   const dialogMarkup = loading ? (
-    <CircularProgress size={200} />
+    <div className={classes.spinnerDiv}>
+      <CircularProgress size={200} thickness={2}/>
+    </div>
   ) : (
     <Grid container spacing={2}>
       <Grid item xs={4}>
@@ -92,6 +106,12 @@ function PostDialog(props) {
         <Typography variant="body1" color="textSecondary">
           {body}
         </Typography>
+        <LikeButton postId={postId} />
+        <span>{likeCount} Likes</span>
+        <MyButton tip="comments">
+          <ChatIcon color="primary" />
+        </MyButton>
+        <span>{commentCount} Comments</span>
       </Grid>
     </Grid>
   );

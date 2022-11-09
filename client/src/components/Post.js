@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import MyButton from "../util/MyButton";
 import DeletePost from "./DeletePost";
 import PostDialog from "./PostDialog";
+import LikeButton from "./LikeButton";
 
 // MUI Imports
 import Card from "@mui/material/Card";
@@ -16,12 +17,9 @@ import Typography from "@mui/material/Typography";
 
 // icons
 import ChatIcon from "@mui/icons-material/ChatBubbleOutline";
-import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 
 // redux
 import { connect } from "react-redux";
-import { likePost, unlikePost } from "../redux/actions/dataActions";
 
 const styles = {
   card: {
@@ -47,24 +45,6 @@ const styles = {
 function Post(props) {
   dayjs.extend(relativeTime);
 
-  const likedPost = () => {
-    if (
-      props.user.likes &&
-      props.user.likes.find((like) => like.postId === props.post.postId)
-    ) {
-      return true;
-    } else return false;
-  };
-
-  const likePost = () => {
-    console.log(props.post.postId);
-    props.likePost(props.post.postId);
-  };
-
-  const unlikePost = () => {
-    props.unlikePost(props.post.postId);
-  };
-
   const {
     classes,
     post: {
@@ -81,22 +61,6 @@ function Post(props) {
       credentials: { handle },
     },
   } = props;
-
-  const likeButton = !authenticated ? (
-    <MyButton tip="Like">
-      <Link to="/login">
-        <FavoriteBorder color="primary" />
-      </Link>
-    </MyButton>
-  ) : likedPost() ? (
-    <MyButton tip="Unlike" onClick={unlikePost}>
-      <FavoriteIcon color="primary" />
-    </MyButton>
-  ) : (
-    <MyButton tip="Like" onClick={likePost}>
-      <FavoriteBorder color="primary" />
-    </MyButton>
-  );
 
   const deleteButton =
     authenticated && userHandle === handle ? (
@@ -123,7 +87,7 @@ function Post(props) {
           {dayjs(createdAt).fromNow()}
         </Typography>
         <Typography variant="body1">{body}</Typography>
-        {likeButton}
+        <LikeButton postId={postId} />
         <span>{likeCount} Likes</span>
         <MyButton tip="comments">
           <ChatIcon color="primary" />
@@ -136,8 +100,6 @@ function Post(props) {
 }
 
 Post.propTypes = {
-  likePost: PropTypes.func.isRequired,
-  unlikePost: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
   post: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
@@ -147,12 +109,4 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-const mapActionsToProps = {
-  likePost,
-  unlikePost,
-};
-
-export default connect(
-  mapStateToProps,
-  mapActionsToProps
-)(withStyles(styles)(Post));
+export default connect(mapStateToProps)(withStyles(styles)(Post));
