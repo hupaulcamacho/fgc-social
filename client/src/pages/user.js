@@ -3,7 +3,10 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import Post from "../components/post/Post";
 import StaticProfile from "../components/profile/StaticProfile";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
+import PostSkeleton from "../util/PostSkeleton";
+import ProfileSkeleton from "../util/ProfileSkeleton";
+
 // mui
 import Grid from "@mui/material/Grid";
 
@@ -12,40 +15,39 @@ import { connect } from "react-redux";
 import { getUserData } from "../redux/actions/dataActions";
 
 function User(props) {
-  const [ profile, setProfile ] = useState(null);
-  const [ postIdParam, setPostIdParam ] = useState(null);
+  const [profile, setProfile] = useState(null);
+  const [postIdParam, setPostIdParam] = useState(null);
 
   const { handle } = useParams();
   const { postId } = useParams();
 
-  
-
   useEffect(() => {
-    if(postId) {
-      setPostIdParam(postId)
+    if (postId) {
+      setPostIdParam(postId);
     }
 
     props.getUserData(handle);
 
-    axios.get(`/user/${handle}`)
+    axios
+      .get(`/user/${handle}`)
       .then((res) => {
         setProfile(res.data.user);
       })
       .catch((err) => console.log(err));
   }, []);
-  
+
   const { posts, loading } = props.data;
   let postsMarkup = loading ? (
-    <p>Loading...</p>
+    <PostSkeleton />
   ) : posts === null ? (
     <p>No posts from this user...</p>
   ) : !postIdParam ? (
     posts.map((post) => <Post key={post.postId} post={post} />)
   ) : (
-    posts.map(post => {
-      if(post.postId !== postIdParam) {
-        return <Post key={post.postId} post={post} />
-      } else return <Post key={post.postId} post={post} openDialog />
+    posts.map((post) => {
+      if (post.postId !== postIdParam) {
+        return <Post key={post.postId} post={post} />;
+      } else return <Post key={post.postId} post={post} openDialog />;
     })
   );
 
@@ -56,7 +58,7 @@ function User(props) {
       </Grid>
       <Grid item sm={3} xs={12}>
         {profile === null ? (
-          <p>Loading Profile...</p>
+          <ProfileSkeleton />
         ) : (
           <StaticProfile profile={profile} />
         )}

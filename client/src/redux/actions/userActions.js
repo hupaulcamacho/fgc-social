@@ -86,7 +86,7 @@ export const editUserDetails = (userDetails) => (dispatch) => {
 
 export const markNotificationsRead = (notificationIds) => (dispatch) => {
   axios.post('/notifications', notificationIds)
-    .then(res => {
+    .then((res) => {
       dispatch({
         type: MARK_NOTIFICATIONS_READ
       })

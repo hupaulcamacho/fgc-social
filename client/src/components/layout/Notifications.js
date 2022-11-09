@@ -32,7 +32,11 @@ function Notifications(props) {
     setAnchorEl(null);
   };
 
-  const onMenuOpened = () => {
+  const onMenuOpened = (event) => {
+    setAnchorEl(event.target);
+    console.log('reading notifications')
+    console.log(props.notifications)
+
     let unreadNotificationsIds = props.notifications
       .filter((not) => !not.read)
       .map((not) => not.notificationId);
@@ -98,7 +102,7 @@ function Notifications(props) {
         <IconButton
           aria-owns={anchorEl ? "simple-menu" : undefined}
           aria-haspopup="true"
-          onClick={handleOpen}
+          onClick={onMenuOpened}
         >
           {notificationsIcon}
         </IconButton>
@@ -107,7 +111,6 @@ function Notifications(props) {
         anchorEl={anchorEl}
         open={Boolean(anchorEl)}
         onClose={handleClose}
-        onEntered={onMenuOpened}
       >
         {notificationsMarkup}
       </Menu>

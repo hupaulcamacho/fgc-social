@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 // components
 import Post from "../components/post/Post";
 import Profile from "../components/profile/Profile";
+import PostSkeleton from "../util/PostSkeleton";
+
 
 // mui
 import Grid from "@mui/material/Grid";
@@ -22,7 +24,7 @@ function Home(props) {
   let recentPostsMarkup = !loading ? (
     posts.map((post) => <Post key={post.postId} post={post} />)
   ) : (
-    <p>Loading...</p>
+    <PostSkeleton />
   );
 
   return (

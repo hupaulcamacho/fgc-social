@@ -65,10 +65,6 @@ function PostDialog(props) {
   const [ open, setOpen ] = useState(false);
   const [ oldPath, setOldPath ] = useState('');
   const [ newPath, setNewPath ] = useState('');
-  
-  console.log('old path', oldPath)
-  console.log('new path', newPath)
-  console.log(props.openDialog)
 
   useEffect(() => {
     if (props.openDialog) {
@@ -81,7 +77,6 @@ function PostDialog(props) {
 
     const { userHandle, postId } = props;
     const newPath = `/users/${userHandle}/post/${postId}`;
-    console.log('replace path', newPath)
 
     if(oldPath === newPath) {
       oldPath = `/users/${userHandle}`

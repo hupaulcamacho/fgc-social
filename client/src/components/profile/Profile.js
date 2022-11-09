@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import EditDetails from "./EditDetails";
 import MyButton from "../../util/MyButton";
+import ProfileSkeleton from "../../util/ProfileSkeleton";
 
 //redux
 import { connect } from "react-redux";
@@ -187,7 +188,7 @@ function Profile(props) {
       </Paper>
     )
   ) : (
-    <p>loading...</p>
+    <ProfileSkeleton />
   );
 
   return profileMarkup;
@@ -199,12 +200,7 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = { logoutUser, uploadImage };
 
-Profile.propTypes = {
-  user: PropTypes.object.isRequired,
-  logoutUser: PropTypes.func.isRequired,
-  uploadImage: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
-};
+
 
 export default connect(
   mapStateToProps,
