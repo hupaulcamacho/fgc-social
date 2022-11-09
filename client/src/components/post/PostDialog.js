@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import MyButton from "../util/MyButton";
+import MyButton from "../../util/MyButton";
 import { withStyles } from "@mui/styles";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import LikeButton from "./LikeButton";
+import Comments from "./Comments"
 
 // mui
 import Dialog from "@mui/material/Dialog";
@@ -21,13 +22,18 @@ import UnfoldMore from "@mui/icons-material/UnfoldMore";
 
 // redux
 import { connect } from "react-redux";
-import { getPost } from "../redux/actions/dataActions";
+import { getPost } from "../../redux/actions/dataActions";
 
 const styles = (theme) => ({
 //   ...theme,
   invisibleSeparator: {
     border: "none",
     margin: "4",
+  },
+  visibleSeparator: {
+    width: '100%',
+    borderBottom: '1px solid rgba(0,0,0,0.1)',
+    marginBottpm: '10px'
   },
   profileImage: {
     maxWidth: 150,
@@ -76,6 +82,7 @@ function PostDialog(props) {
       commentCount,
       userImage,
       userHandle,
+      comments
     },
     UI: { loading },
   } = props;
@@ -113,6 +120,8 @@ function PostDialog(props) {
         </MyButton>
         <span>{commentCount} Comments</span>
       </Grid>
+      <hr className={classes.visibleSeparator} />
+      <Comments comments={comments}/>
     </Grid>
   );
 

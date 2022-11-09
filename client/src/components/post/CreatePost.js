@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import MyButton from "../util/MyButton";
+import MyButton from "../../util/MyButton";
 
 // mui
 import Button from "@mui/material/Button";
@@ -13,7 +13,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 // redux
 import { connect } from "react-redux";
-import { createPost, clearErrors } from "../redux/actions/dataActions";
+import { createPost, clearErrors } from "../../redux/actions/dataActions";
 
 // icon
 import AddIcon from "@mui/icons-material/Add";
@@ -80,15 +80,13 @@ function CreatePost(props) {
       </MyButton>
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
         <MyButton
-        tip="Close"
-        onClick={handleClose}
-        tipClassName={classes.closeButton}
+          tip="Close"
+          onClick={handleClose}
+          tipClassName={classes.closeButton}
         >
-            <CloseIcon />
+          <CloseIcon />
         </MyButton>
-        <DialogTitle>
-          Make a new post
-        </DialogTitle>
+        <DialogTitle>Make a new post</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit}>
             <TextField

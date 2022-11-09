@@ -2,12 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
-import EditDetails from './EditDetails'
-import MyButton from '../util/MyButton';
+import EditDetails from "./EditDetails";
+import MyButton from "../../util/MyButton";
 
 //redux
 import { connect } from "react-redux";
-import { logoutUser, uploadImage } from "../redux/actions/userActions";
+import { logoutUser, uploadImage } from "../../redux/actions/userActions";
 
 // mui
 import { withStyles } from "@mui/styles";
@@ -46,13 +46,12 @@ const styles = (theme) => ({
     },
     "& .profile-details": {
       textAlign: "center",
-      backgroundColor: '#f5f7ff',
-      padding: '10px',
-      borderRadius: '4px',
-      marginBottom: '10px',
+      backgroundColor: "#f5f7ff",
+      padding: "10px",
+      borderRadius: "4px",
+      marginBottom: "10px",
       "& span, svg": {
         verticalAlign: "middle",
-        
       },
       "& a": {
         color: theme.palette.primary.main,
@@ -92,7 +91,7 @@ function Profile(props) {
     const formData = new FormData();
     formData.append("image", image, image.name);
     props.uploadImage(formData);
-    console.log('image changed')
+    console.log("image changed");
   };
 
   const handleEditPicture = () => {
@@ -101,15 +100,19 @@ function Profile(props) {
   };
 
   const handleLogout = () => {
-    props.logoutUser()
-  }
+    props.logoutUser();
+  };
 
   let profileMarkup = !loading ? (
     authenticated ? (
       <Paper className={classes.paper}>
         <div className={classes.profile}>
           <div className="image-wrapper">
-            <MyButton tip="Edit profile picture" onClick={handleEditPicture} btnClassName="button">
+            <MyButton
+              tip="Edit profile picture"
+              onClick={handleEditPicture}
+              btnClassName="button"
+            >
               <EditIcon color="primary" />
             </MyButton>
             <img className="profile-image" src={imageUrl} alt="profile" />

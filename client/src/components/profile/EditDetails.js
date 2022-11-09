@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import MyButton from '../util/MyButton';
+import MyButton from "../../util/MyButton";
 
 // mui
 import Button from "@mui/material/Button";
@@ -13,20 +13,19 @@ import { withStyles } from "@mui/styles";
 
 // redux
 import { connect } from "react-redux";
-import { editUserDetails } from "../redux/actions/userActions";
+import { editUserDetails } from "../../redux/actions/userActions";
 
 // icons
 import EditIcon from "@mui/icons-material/Edit";
 
-
 const styles = (theme) => ({
-//   ...theme,
-    textField: {
-        margin: '10px auto 10px auto !important',
-    },
-    editButton: {
-        float: 'right'
-    }
+  //   ...theme,
+  textField: {
+    margin: "10px auto 10px auto !important",
+  },
+  editButton: {
+    float: "right",
+  },
 });
 
 function EditDetails(props) {
@@ -62,7 +61,11 @@ function EditDetails(props) {
   const { classes } = props;
   return (
     <>
-      <MyButton tip='Edit user details' onClick={handleOpen} btnClassName={classes.editButton}>
+      <MyButton
+        tip="Edit user details"
+        onClick={handleOpen}
+        btnClassName={classes.editButton}
+      >
         <EditIcon color="primary" />
       </MyButton>
       <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
@@ -122,7 +125,9 @@ EditDetails.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  credentials: state.user.credentials
+  credentials: state.user.credentials,
 });
 
-export default connect(mapStateToProps, { editUserDetails })(withStyles(styles)(EditDetails));
+export default connect(mapStateToProps, { editUserDetails })(
+  withStyles(styles)(EditDetails)
+);
