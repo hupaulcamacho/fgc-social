@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import IconButton from "@mui/material/IconButton";
-import ToolTip from "@mui/material/ToolTip";
+import ToolTip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
 import Badge from "@mui/material/Badge";
 
